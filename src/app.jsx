@@ -16,6 +16,7 @@ var ListItem = React.createClass({
             <li>
                 <strong>{this.props.name}: </strong>
                 {this.props.job}
+                <button onClick={this.props.onClick}>Delete</button>
             </li>
         )
     }
@@ -23,15 +24,24 @@ var ListItem = React.createClass({
 
 var List = React.createClass({
     getInitialState: function() {
-        return {people: people}
+        return { people: people }
+    },
+    deletePerson: function(person) {
+        this.state.people.splice(this.state.people.indexOf(person), 1);
+
+        this.setState(this.state);
     },
     render: function() {
+        var self= this;
         return (
             <ul>
                 {
                     this.state.people.map(function(person) {
                         return (
-                            <ListItem name={person.name} job={person.job}/>
+                            <ListItem
+                                name={person.name}
+                                job={person.job}
+                                onClick={self.deletePerson.bind(null, person)}/>
                         )
                     })
                 }
